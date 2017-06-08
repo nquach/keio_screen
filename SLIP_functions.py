@@ -29,10 +29,10 @@ def segment_SLIP(data_direc, control_direc, mask_direc, control_mask_direc):
 			except:
 				os.mkdir(current_control_mask_direc)
 
-			segment_SLIP(current_data_direc, current_mask_direc)
-			segment_SLIP(current_control_direc, current_control_mask_direc)
+			segment_SLIP_pos(current_data_direc, current_mask_direc)
+			segment_SLIP_pos(current_control_direc, current_control_mask_direc)
 			
-def segment_SLIP_plate(data_direc, mask_direc):
+def segment_SLIP_pos(data_direc, mask_direc):
 	data_location = data_direc
 	phase_location = mask_direc
 

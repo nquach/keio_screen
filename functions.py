@@ -7,6 +7,7 @@ import scipy
 import matplotlib.pyplot as plt
 from gaussian_model import extract_infected, gaussian_classifier, gmm_2D
 from keio_names import get_keio_names, pos_to_strain
+from scipy.ndimage.morphology import binary_fill_holes
 
 #Get matrix of all keio strains
 strain_matrix = get_keio_names()
@@ -44,6 +45,9 @@ def analyze_slip_frame(data_direc, mask_direc, frame, threshold = 0.75, multipli
 	mask = mask[:,50:1180]
 	FITC = FITC[:,50:1180]
 	cherry = cherry[:,50:1180]
+
+	#fill in holes
+	mask = binary_fill_holes(mask)
 
 	#Normalize fluorescence images to mean pixel value of background
 	norm_FITC = FITC - np.mean(np.invert(mask)*FITC)
