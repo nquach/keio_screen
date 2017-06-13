@@ -69,15 +69,23 @@ def analyze_slip_frame(data_direc, mask_direc, frame, threshold = 0.75, multipli
 	for props in mask_props:
 		mask_ecc.append(props.eccentricity)
 
+	#calculate the eccentricity in each 
+	mask_solidity = []
+	for props in mask_props:
+		mask_solidity.append(props.solidity)
+
 	#calculate interquartile range of area and eccentricity data sets
 	iqr_area = np.subtract(*np.percentile(mask_area,[75, 25]))
 	iqr_ecc = np.subtract(*np.percentile(mask_ecc,[75, 25]))
+	iqr_solidity = np.subtract(*np.percentile(mask_solidity,[75, 25]))
 
-	#calculate max and min cutoff for outlines of area and eccentricity data sets
+	#calculate max and min cutoff for outliers of area, eccentricity, and solidity data sets
 	ecc_max = np.percentile(mask_ecc, 75) + multiplier*iqr_ecc
 	ecc_min = np.percentile(mask_ecc, 25) - multiplier*iqr_ecc
 	area_max = np.percentile(mask_area, 75) + multiplier*iqr_area
 	area_min = np.percentile(mask_area, 25) - multiplier*iqr_area
+	solidity_max = np.percentile(mask_solidity, 75) + multiplier*iqr_solidity
+	solidity_min = np.percentile(mask_solidity, 25) - multiplier*iqr_solidity
 
 	#Calculate region properties for the fluorescence images
 	FITC_props = regionprops(label_mask, norm_FITC)
